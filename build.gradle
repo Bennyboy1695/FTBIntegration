@@ -1,0 +1,65 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'org.spongepowered.plugin' version '0.8.1'
+    id 'maven'
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+archivesBaseName = project.name.toLowerCase()
+
+version = "S7.0-$version"
+
+minecraft {
+    version = "1.12.2-14.23.5.2768"
+    runDir = "run"
+    mappings = "stable_39"
+}
+
+sponge {
+    plugin {
+        id = project.id
+        meta {
+            name = project.name
+            version = "$version"
+            authors = [project.author]
+            description = project.description
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'sponge'
+        url = 'http://repo.spongepowered.org/maven'
+    }
+    maven {
+        name = "Forge"
+        url = "http://files.minecraftforge.net/maven"
+    }
+}
+
+dependencies {
+    compile("org.spongepowered:spongeapi:$apiVersion")
+    compile 'org.spongepowered:spongecommon:7.1.0-SNAPSHOT:dev'
+    compile fileTree(dir: "libs", includes: ['*.jar'])
+    compile('me.ryanhamshire:griefprevention:1.12.2-4.3.0.661:api')
+    compile 'it.unimi.dsi:fastutil:8.2.1'
+}
+
