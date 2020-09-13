@@ -42,6 +42,7 @@ jobs:
       uses: actions/create-release@v1
       env:
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+       JOB_CONTEXT: ${{ toJson(github.ref) }}
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
@@ -49,3 +50,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: build/libs/*.jar
+    - name: Print refs
+      env:
+        JOB_CONTEXT: ${{ toJson(github.ref) }}
+        run: echo "$JOB_CONTEXT"
