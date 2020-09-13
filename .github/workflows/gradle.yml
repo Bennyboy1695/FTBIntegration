@@ -28,3 +28,7 @@ jobs:
       if: always()
       with:
        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+    - uses: actions/upload-artifact@v2
+      with:
+       name: Builds
+       path: build/libs/*.jar
