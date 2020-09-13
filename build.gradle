@@ -58,8 +58,10 @@ repositories {
 dependencies {
     compile("org.spongepowered:spongeapi:$apiVersion")
     compile 'org.spongepowered:spongecommon:7.1.0-SNAPSHOT:dev'
-    compile fileTree(dir: "libs", includes: ['*.jar'])
     compile('me.ryanhamshire:griefprevention:1.12.2-4.3.0.661:api')
     compile 'it.unimi.dsi:fastutil:8.2.1'
+    
+    //Libs Dir
+    compile fileTree(dir: "libs", includes: ['*.jar'])
 }
 
