@@ -24,10 +24,6 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - uses: sarisia/actions-status-discord@v1
-      if: always()
-      with:
-       webhook: ${{ secrets.DISCORD_WEBHOOK }}
     - uses: actions/upload-artifact@v2
       with:
        name: Builds
@@ -38,10 +34,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: false    
-    - name: Print refs
-      env:
-        OUT_JSON: ${{ toJson(steps.create_tag.outputs) }}
-      run: echo "$OUT_JSON"
+#    - name: Print refs
+#      env:
+#        OUT_JSON: ${{ toJson(steps.create_tag.outputs) }}
+#      run: echo "$OUT_JSON"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -49,10 +45,13 @@ jobs:
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
        JOB_CONTEXT: ${{ toJson(github.ref) }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.create_tag.outputs.new_tag }}
+        release_name: Release ${{ steps.create_tag.outputs.new_tag }}
     - uses: shogo82148/actions-upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: build/libs/*.jar
-
+    - uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+       webhook: ${{ secrets.DISCORD_WEBHOOK }}
