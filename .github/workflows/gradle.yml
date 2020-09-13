@@ -39,7 +39,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: false    
     - name: Print refs
-      run: echo ${{ steps.create_tag.outputs }}
+      env:
+        OUT_JSON: ${{ toJson(steps.create_tag.outputs) }}
+      run: echo "$OUT_JSON"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
