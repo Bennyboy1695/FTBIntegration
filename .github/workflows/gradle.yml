@@ -34,9 +34,12 @@ jobs:
        path: build/libs/*.jar
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.17.2
+      id: create_tag
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: false
+        WITH_V: false    
+    - name: Print refs
+      run: echo ${{ steps.create_tag.outputs }}
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -50,7 +53,4 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: build/libs/*.jar
-    - name: Print refs
-      env:
-        JOB_CONTEXT: ${{ toJson(github.ref) }}
-      run: echo "$JOB_CONTEXT"
+
