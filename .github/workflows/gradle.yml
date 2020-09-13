@@ -53,4 +53,4 @@ jobs:
     - name: Print refs
       env:
         JOB_CONTEXT: ${{ toJson(github.ref) }}
-        run: echo "$JOB_CONTEXT"
+      run: echo "$JOB_CONTEXT"
